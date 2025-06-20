@@ -40,6 +40,10 @@ extension Application {
             @Option(name: .long, help: "Path to vmexec")
             var vmexec: String
 
+            @Option(name: .long, help: "Path to swift-static-backtrace")
+            var swiftBacktrace: String =
+                "/Users/aditya/Library/org.swift.swiftpm/swift-sdks/swift-6.2-DEVELOPMENT-SNAPSHOT-2025-06-12-a_static-linux-0.0.1.artifactbundle/swift-6.2-DEVELOPMENT-SNAPSHOT-2025-06-12-a_static-linux-0.0.1/swift-linux-musl/musl-1.2.5.sdk/aarch64/usr/libexec/swift/linux-static/swift-backtrace-static"
+
             @Option(name: .long, help: "Platform of the built binaries being packaged into the block")
             var platformString: String = Platform.current.description
 
@@ -101,6 +105,12 @@ extension Application {
                 src = URL(fileURLWithPath: vmexec)
                 data = try Data(contentsOf: src)
                 entry.path = "sbin/vmexec"
+                entry.size = Int64(data.count)
+                try writer.writeEntry(entry: entry, data: data)
+
+                src = URL(fileURLWithPath: swiftBacktrace)
+                data = try Data(contentsOf: src)
+                entry.path = "sbin/swift-backtrace"
                 entry.size = Int64(data.count)
                 try writer.writeEntry(entry: entry, data: data)
 

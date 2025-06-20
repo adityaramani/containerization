@@ -141,6 +141,7 @@ struct IntegrationSuite: AsyncParsableCommand {
 
         let clPath = Self.testDir.appending(component: "rn.ext4").absolutePath()
         try? FileManager.default.removeItem(atPath: clPath)
+        try? FileManager.default.removeItem(atPath: bootlog)
 
         let cl = try fs.clone(to: clPath)
         return (
@@ -207,10 +208,11 @@ struct IntegrationSuite: AsyncParsableCommand {
             "container mount": testMounts,
             "nested virt": testNestedVirtualizationEnabled,
         ]
-
+        let name = "multiple concurrent processes with output stress"
+        let test = testMultipleConcurrentProcessesOutputStress
         var passed = 0
         var skipped = 0
-        for (name, test) in tests {
+        while true {
             do {
                 log.info("test \(name) started...")
 
@@ -224,6 +226,7 @@ struct IntegrationSuite: AsyncParsableCommand {
                 skipped += 1
             } catch {
                 log.error("❌ test \(name) failed: \(error)")
+                break
             }
         }
 

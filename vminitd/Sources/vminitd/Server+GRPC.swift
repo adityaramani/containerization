@@ -501,6 +501,13 @@ extension Initd: Com_Apple_Containerization_Sandbox_V3_SandboxContextAsyncProvid
             try await ctr.deleteExec(id: request.id)
         }
 
+         log.debug(
+            "deleteProcess completed",
+            metadata: [
+                "id": "\(request.id)",
+                "containerID": "\(request.containerID)",
+            ])
+
         return .init()
     }
 

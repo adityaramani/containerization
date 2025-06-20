@@ -36,7 +36,7 @@ all:
 	@mkdir -p ./bin/
 	@rm -f ./bin/vminitd
 	@rm -f ./bin/vmexec
-	@swift build -c $(BUILD_CONFIGURATION) $(SWIFT_CONFIGURATION)
+	@swift build -c $(BUILD_CONFIGURATION) $(SWIFT_CONFIGURATION) -Xcc -fno-omit-frame-pointer
 	@install $(VMINITD_BIN_PATH)/vminitd ./bin/vminitd
 	@install $(VMINITD_BIN_PATH)/vmexec ./bin/vmexec
 
